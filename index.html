@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #app{
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            margin-top: -100px;
+            margin-left: -100px;
+            background-color: skyblue;
+            transition: all 0.5s linear;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="text" placeholder="请输入城市名称" v-model="city">
+    <input type="button" value="获取天气" @click="getJoke">
+    <p>天气:{{weather}}</p>
+    <p>{{tips}}</p>
+    <p>{{yundong}}</p>
+</div>
+<script src="JavaScript/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    var app = new Vue({
+        el:"#app",
+        data:{
+            weather:"",
+            city:"",
+            tips:"",
+            yundong:""
+        },
+        methods:{
+            getJoke: function (){
+                var that = this;
+                axios.get("https://yiketianqi.com/api?version=v61&appid=32454934&appsecret=MV1oAeSb"+"&city="+this.city).then(
+                    function (response){
+                        that.weather = response.data.wea;
+                        that.tips = response.data.air_tips;
+                    },function (err){}
+                )
+            }
+        }
+    })
+</script>
+</body>
+</html>
